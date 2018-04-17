@@ -1,25 +1,11 @@
 // @flow
 
-import type { TextList, AdjacencyList } from "./";
+import type { TextList, Item, ItemSequence } from "./";
 import { compareNumbers } from "./helpers";
-
-export type Node = {
-  depth: number, // the number of spaces before the bullet
-  label: string, // trimmed
-  level?: number // normalised version of depth
-};
-
-export type ParserConfig = {
-  groupByLabel: boolean
-};
-const defaultParserConfig = {
-  // Where nodes with the same label appear > once, group them into one node
-  groupByLabel: true
-};
 
 const lineBreaker = /^(\s*)(-|\*)\s*(\w.*)$/i;
 
-const _parseLine = (line: string): ?Node => {
+const _parseLine = (line: string): ?Item => {
   const m = lineBreaker.exec(line);
   if (!m) throw new Error(`Unable to parse line: ${line}`);
   return {
@@ -28,7 +14,7 @@ const _parseLine = (line: string): ?Node => {
   };
 };
 
-const _normaliseDepthToLevel = (nodes: Node[]): Node[] => {
+const _normaliseDepthToLevel = (nodes: ItemSequence): ItemSequence => {
   const uqDepths = nodes
     .reduce(
       (acc, { depth }) => (acc.includes(depth) ? acc : acc.push(depth) && acc),
@@ -41,22 +27,18 @@ const _normaliseDepthToLevel = (nodes: Node[]): Node[] => {
 const parseList = (
   text: TextList,
   _config: ParserConfig = {}
-): AdjacencyList => {
-  // configurations
-  const { groupByLabel } = { ...defaultParserConfig, ..._config };
-
+): ItemSequence => {
   // split the list into lines, removing completely blank lines
   const lines = text
     .trim()
     .split("\n")
     .filter(chunk => chunk.trim().length);
 
+  // @todo get some pipeline operator
   // turn number of spaces into list heirarchy level
-  const nodes = _normaliseDepthToLevel(
-    lines.map(_parseLine) // parse each line into a Node object { depth, label }
+  return _normaliseDepthToLevel(
+    lines.map(_parseLine) // parse each line into a Item object { depth, label }
   );
-
-  return [["a", "a"]];
 };
 
 export default parseList;

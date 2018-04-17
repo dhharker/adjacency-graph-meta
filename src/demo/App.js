@@ -97,8 +97,8 @@ class App extends React.Component<void, State> {
     return (
       <div id="app">
         <textarea
-          rows={25}
-          cols={80}
+          rows={7}
+          style={{ width: "100%" }}
           value={textList}
           onChange={ev => {
             this.setState({ textList: ev.target.value });

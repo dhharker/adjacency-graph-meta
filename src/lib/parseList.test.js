@@ -1,13 +1,13 @@
 // @flow
 
-import type { AdjacencyList } from "./";
+import type { EdgeList } from "./";
 
-import parseList, { type Node } from "./parseList";
+import parseList, { type Item, ItemSequence } from "./parseList";
 
 import { _test } from "./parseList";
 const { _parseLine, _normaliseDepthToLevel } = _test;
 
-const isValidAdjacencyList = (iut: any) => {
+const isValidEdgeList = (iut: any) => {
   if (!Array.isArray(iut)) {
     throw new Error("Must be an array");
   }
@@ -20,6 +20,21 @@ const isValidAdjacencyList = (iut: any) => {
       throw new Error("child[0] must be a string");
     if (typeof mem[1] !== "string")
       throw new Error("child[0] must be a string");
+    return true;
+  }
+};
+
+const isValidItemSequence = ns => {
+  if (!Array.isArray(ns)) {
+    throw new Error("Must be an array");
+  }
+  if (!ns.length) return true;
+  for (let i in ns) {
+    const mem = ns[i];
+    if (typeof mem !== "object") throw new Error("Children must be objects");
+    if (typeof mem.depth === undefined) throw new Error("depth is required");
+    if (typeof mem.level === undefined) throw new Error("level is required");
+    if (typeof mem.label === undefined) throw new Error("label is required");
     return true;
   }
 };
@@ -64,49 +79,48 @@ const sampleLists = [
 ];
 
 describe("parseList", () => {
-  it("Returns a valid AdjacencyList", () => {
-    sampleLists.map(lis => {
-      isValidAdjacencyList(parseList(lis));
+  describe("_parseLine", () => {
+    it("Returns a valid Item", () => {
+      expect(_parseLine("   - Thing")).toMatchObject(
+        expect.objectContaining({
+          depth: expect.any(Number),
+          label: expect.any(String)
+        })
+      );
+    });
+    it("Returns a correct Item", () => {
+      expect(_parseLine("   - Thing")).toMatchObject(
+        expect.objectContaining({
+          depth: 3,
+          label: "Thing"
+        })
+      );
+    });
+    it("Throws on invalid input", () => {
+      expect(() => _parseLine("  ")).toThrow();
+      expect(() => _parseLine("  - ")).toThrow();
+      expect(() => _parseLine("  - -")).toThrow();
+      expect(() => _parseLine("  --")).toThrow();
+      expect(() => _parseLine("  Thing ")).toThrow();
+      expect(() => _parseLine("Thing Boo")).toThrow();
+      expect(() => _parseLine("  - Boo\n   - Thing")).toThrow();
     });
   });
-});
 
-describe("_parseLine", () => {
-  it("Returns a valid Node", () => {
-    expect(_parseLine("   - Thing")).toMatchObject(
-      expect.objectContaining({
-        depth: expect.any(Number),
-        label: expect.any(String)
-      })
-    );
+  describe("_normaliseDepthToLevel", () => {
+    it("Normalises depths", () => {
+      expect(
+        _normaliseDepthToLevel([{ depth: 5 }, { depth: 1 }, { depth: 100 }])
+      ).toEqual([
+        { depth: 5, level: 1 },
+        { depth: 1, level: 0 },
+        { depth: 100, level: 2 }
+      ]);
+    });
   });
-  it("Returns a correct Node", () => {
-    expect(_parseLine("   - Thing")).toMatchObject(
-      expect.objectContaining({
-        depth: 3,
-        label: "Thing"
-      })
-    );
-  });
-  it("Throws on invalid input", () => {
-    expect(() => _parseLine("  ")).toThrow();
-    expect(() => _parseLine("  - ")).toThrow();
-    expect(() => _parseLine("  - -")).toThrow();
-    expect(() => _parseLine("  --")).toThrow();
-    expect(() => _parseLine("  Thing ")).toThrow();
-    expect(() => _parseLine("Thing Boo")).toThrow();
-    expect(() => _parseLine("  - Boo\n   - Thing")).toThrow();
-  });
-});
-
-describe("_normaliseDepthToLevel", () => {
-  it("Normalises depths", () => {
-    expect(
-      _normaliseDepthToLevel([{ depth: 5 }, { depth: 1 }, { depth: 100 }])
-    ).toEqual([
-      { depth: 5, level: 1 },
-      { depth: 1, level: 0 },
-      { depth: 100, level: 2 }
-    ]);
+  it("Returns a valid ItemSequence", () => {
+    sampleLists.map(lis => {
+      isValidItemSequence(parseList(lis));
+    });
   });
 });
