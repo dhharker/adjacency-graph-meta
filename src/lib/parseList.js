@@ -5,7 +5,7 @@ import { compareNumbers } from "./helpers";
 
 const lineBreaker = /^(\s*)(-|\*)\s*(\w.*)$/i;
 
-const _parseLine = (line: string): RawItem => {
+const _parseLine = (line: string): ?RawItem => {
   const m = lineBreaker.exec(line);
   if (!m) throw new Error(`Unable to parse line: ${line}`);
   return {
@@ -32,7 +32,7 @@ const parseList = (text: TextList): ItemSequence => {
   const lines = text.split("\n").filter(chunk => chunk.trim().length);
 
   // parse each line into a Item object { depth, label }
-  const rawItems = lines.map(_parseLine);
+  const rawItems: RawItemSequence = lines.map(_parseLine).filter(a => a);
 
   // @todo get some pipeline operator
   // turn number of spaces into list heirarchy level

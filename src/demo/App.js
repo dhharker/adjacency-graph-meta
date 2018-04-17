@@ -3,8 +3,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import { parseList } from "../lib";
-import type { TextList, ItemSequence } from "../lib";
+import { parseList, createGraph } from "../lib";
+import type { TextList, ItemSequence, Graph, NodeList, EdgeList } from "../lib";
 
 const defaultListText = `
   - Javascript​:
@@ -77,7 +77,11 @@ const defaultListText = `
 
 type State = {
   textList: TextList,
-  itemSequence: ItemSequence
+  itemSequence: ItemSequence,
+  graph?: {
+    nodes: NodeList,
+    edges: EdgeList
+  }
 };
 
 const DemoWrapper = styled.div`
@@ -103,8 +107,12 @@ class App extends React.Component<void, State> {
 
   onTextChange = (text: string): void => {
     const parsed = parseList(text);
-    console.log(parsed);
     this.setState({ itemSequence: parsed });
+  };
+
+  onItemsChange = (items: ItemSequence): void => {
+    const [nodes, edges] = createGraph(items);
+    this.setState({ graph: { nodes, edges } });
   };
 
   render() {

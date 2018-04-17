@@ -11,7 +11,7 @@ const _sluggify = (str: string, index: number) =>
 
 const createGraph = (seq: ItemSequence): Graph => {
   if (!seq || !Array.isArray(seq))
-    throw "Must provide an ItemSequence to createGraph";
+    throw new Error("Must provide an ItemSequence to createGraph");
   const nodeList = seq.map(({ level, label }, itemIndex) => ({
     id: _sluggify(label, itemIndex),
     level,

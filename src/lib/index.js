@@ -1,6 +1,7 @@
 // @flow
 
 import parseList from "./parseList";
+import createGraph from "./createGraph";
 
 // // to/from parseList.js: // //
 // raw markdown-style nested list
@@ -40,4 +41,4 @@ export type Graph = [NodeList, EdgeList];
 //   groupByLabel: true
 // };
 
-export { parseList };
+export { parseList, createGraph };
