@@ -1,8 +1,9 @@
-import Example from './components/Example';
-import SecondExample from './components/SecondExample';
+// @flow
 
-export default Example;
+import parseList from "./parseList";
 
-export {
-  SecondExample,
-};
+export type TextList = string;
+export type Adjacency = Array<string, string>;
+export type AdjacencyList = Array<Adjacency>;
+
+export { parseList };
