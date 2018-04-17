@@ -7,11 +7,12 @@ const lineBreaker = /^(\s*)(-|\*)\s*(\w.*)$/i;
 
 const _parseLine = (line: string): ?RawItem => {
   const m = lineBreaker.exec(line);
-  if (!m) throw new Error(`Unable to parse line: ${line}`);
-  return {
-    depth: m[1].length, // number of spaces before the bullet
-    label: m[3].trim() // characters after the bullet without any padding spaces
-  };
+  return !m
+    ? null
+    : {
+        depth: m[1].length, // number of spaces before the bullet
+        label: m[3].trim() // characters after the bullet without any padding spaces
+      };
 };
 
 const _normaliseDepthToLevel = (nodes: RawItemSequence): ItemSequence => {

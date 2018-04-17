@@ -101,7 +101,7 @@ class App extends React.Component<void, State> {
     super();
     this.state = {
       textList: defaultListText,
-      itemSequence: []
+      itemSequence: parseList(defaultListText)
     };
   }
 
