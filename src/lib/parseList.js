@@ -29,10 +29,7 @@ const parseList = (
   _config: ParserConfig = {}
 ): ItemSequence => {
   // split the list into lines, removing completely blank lines
-  const lines = text
-    .trim()
-    .split("\n")
-    .filter(chunk => chunk.trim().length);
+  const lines = text.split("\n").filter(chunk => chunk.trim().length);
 
   // @todo get some pipeline operator
   // turn number of spaces into list heirarchy level

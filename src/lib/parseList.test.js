@@ -1,5 +1,3 @@
-// @flow
-
 import type { EdgeList } from "./";
 
 import parseList, { type Item, ItemSequence } from "./parseList";
@@ -118,9 +116,35 @@ describe("parseList", () => {
       ]);
     });
   });
+
   it("Returns a valid ItemSequence", () => {
     sampleLists.map(lis => {
       isValidItemSequence(parseList(lis));
     });
+  });
+
+  it("Returns a correct ItemSequence (by not being confused by initial leading space in text list)", () => {
+    const seq = parseList(`
+
+
+  - A
+    - a1
+    - a2
+  - B
+
+
+   - C
+
+
+
+    `);
+    console.log(seq);
+    expect(seq).toEqual([
+      { depth: 2, label: "A", level: 0 },
+      { depth: 4, label: "a1", level: 2 },
+      { depth: 4, label: "a2", level: 2 },
+      { depth: 2, label: "B", level: 0 },
+      { depth: 3, label: "C", level: 1 }
+    ]);
   });
 });

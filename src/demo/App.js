@@ -1,8 +1,10 @@
 // @flow
 
 import React from "react";
+import styled from "styled-components";
+
 import { parseList } from "../lib";
-import type { TextList, AdjacencyList } from "../lib";
+import type { TextList, ItemSequence } from "../lib";
 
 const defaultListText = `
   - Javascript​:
@@ -75,27 +77,42 @@ const defaultListText = `
 
 type State = {
   textList: TextList,
-  adjacencyList: AdjacencyList
+  itemSequence: ItemSequence
 };
+
+const DemoWrapper = styled.div`
+  max-width: 40em;
+  margin: 1em auto;
+  padding: 1em
+  background-color: #ffcc99;
+  color: #14100c;
+`;
+const ScrollList = styled.ul`
+  max-height: 6em;
+  overflow-y: scroll;
+`;
 
 class App extends React.Component<void, State> {
   constructor() {
     super();
     this.state = {
       textList: defaultListText,
-      adjacencyList: []
+      itemSequence: []
     };
   }
 
   onTextChange = (text: string): void => {
-    this.setState({ adjacencyList: parseList(text) });
+    const parsed = parseList(text);
+    console.log(parsed);
+    this.setState({ itemSequence: parsed });
   };
 
   render() {
-    const { textList, adjacencyList } = this.state;
+    const { textList, itemSequence } = this.state;
 
     return (
-      <div id="app">
+      <DemoWrapper>
+        <span>1. Markdown style nested list</span>
         <textarea
           rows={7}
           style={{ width: "100%" }}
@@ -105,14 +122,23 @@ class App extends React.Component<void, State> {
             this.onTextChange(ev.target.value);
           }}
         />
-        <ul id="adjacencyList">
-          {adjacencyList.map(([left, right]) => (
+        <span>2. List of items with normalised depth</span>
+        <ScrollList>
+          {itemSequence.map(({ label, level }, i) => (
+            <li key={i}>
+              @{level}: {label}
+            </li>
+          ))}
+        </ScrollList>
+        <span>3. List of nodes and edges</span>
+        <ScrollList>
+          {/*itemSequence.map(([left, right]) => (
             <li>
               {left} -> {right}
             </li>
-          ))}
-        </ul>
-      </div>
+          ))*/}
+        </ScrollList>
+      </DemoWrapper>
     );
   }
 }
