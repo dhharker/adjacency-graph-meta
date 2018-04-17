@@ -18,8 +18,9 @@ const createGraph = (seq: ItemSequence): Graph => {
     label,
     weight: 0
   }));
+
   const edgeList = [];
-  return [nodeList, []];
+  return [nodeList, edgeList];
 };
 
 export default createGraph;

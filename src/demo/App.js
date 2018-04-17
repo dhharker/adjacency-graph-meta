@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { parseList, createGraph } from "../lib";
-import type { TextList, ItemSequence, Graph, NodeList, EdgeList } from "../lib";
+import type { TextList, ItemSequence, NodeList, EdgeList } from "../lib";
 
 const defaultListText = `
   - Javascript​:

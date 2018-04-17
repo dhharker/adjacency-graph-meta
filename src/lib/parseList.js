@@ -33,9 +33,12 @@ const parseList = (text: TextList): ItemSequence => {
   const lines = text.split("\n").filter(chunk => chunk.trim().length);
 
   // parse each line into a Item object { depth, label }
-  const rawItems: RawItemSequence = lines.map(_parseLine).filter(a => a);
+  const rawItems: RawItemSequence = (lines
+    .map(_parseLine)
+    .filter(a => a): $FlowFixMe);
 
-  // @todo get some pipeline operator
+  // @todo get some pipeline operator going on!
+
   // turn number of spaces into list heirarchy level
   return _normaliseDepthToLevel(rawItems);
 };

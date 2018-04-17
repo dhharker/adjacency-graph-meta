@@ -95,13 +95,13 @@ describe("parseList", () => {
       );
     });
     it("Throws on invalid input", () => {
-      expect(() => _parseLine("  ")).toThrow();
-      expect(() => _parseLine("  - ")).toThrow();
-      expect(() => _parseLine("  - -")).toThrow();
-      expect(() => _parseLine("  --")).toThrow();
-      expect(() => _parseLine("  Thing ")).toThrow();
-      expect(() => _parseLine("Thing Boo")).toThrow();
-      expect(() => _parseLine("  - Boo\n   - Thing")).toThrow();
+      expect(_parseLine("  ")).toEqual(null);
+      expect(_parseLine("  - ")).toEqual(null);
+      expect(_parseLine("  - -")).toEqual(null);
+      expect(_parseLine("  --")).toEqual(null);
+      expect(_parseLine("  Thing ")).toEqual(null);
+      expect(_parseLine("Thing Boo")).toEqual(null);
+      expect(_parseLine("  - Boo\n   - Thing")).toEqual(null);
     });
   });
 
