@@ -29,14 +29,12 @@ const _parseLine = (line: string): ?Node => {
 };
 
 const _normaliseDepthToLevel = (nodes: Node[]): Node[] => {
-  console.log(nodes);
   const uqDepths = nodes
     .reduce(
       (acc, { depth }) => (acc.includes(depth) ? acc : acc.push(depth) && acc),
       []
     )
     .sort(compareNumbers);
-
   return nodes.map(node => ({ ...node, level: uqDepths.indexOf(node.depth) }));
 };
 
@@ -53,8 +51,8 @@ const parseList = (
     .split("\n")
     .filter(chunk => chunk.trim().length);
 
+  // turn number of spaces into list heirarchy level
   const nodes = _normaliseDepthToLevel(
-    // turn number of spaces into list heirarchy level
     lines.map(_parseLine) // parse each line into a Node object { depth, label }
   );
 
