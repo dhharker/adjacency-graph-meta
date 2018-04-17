@@ -5,7 +5,7 @@ import parseList, { type Item, ItemSequence } from "./parseList";
 import { _test } from "./parseList";
 const { _parseLine, _normaliseDepthToLevel } = _test;
 
-const isValidEdgeList = (iut: any) => {
+export const isEdgeList = (iut: any) => {
   if (!Array.isArray(iut)) {
     throw new Error("Must be an array");
   }
@@ -22,7 +22,7 @@ const isValidEdgeList = (iut: any) => {
   }
 };
 
-const isValidItemSequence = ns => {
+const isItemSequence = ns => {
   if (!Array.isArray(ns)) {
     throw new Error("Must be an array");
   }
@@ -108,18 +108,22 @@ describe("parseList", () => {
   describe("_normaliseDepthToLevel", () => {
     it("Normalises depths", () => {
       expect(
-        _normaliseDepthToLevel([{ depth: 5 }, { depth: 1 }, { depth: 100 }])
+        _normaliseDepthToLevel([
+          { label: "one", depth: 5 },
+          { label: "two", depth: 1 },
+          { label: "three", depth: 100 }
+        ])
       ).toEqual([
-        { depth: 5, level: 1 },
-        { depth: 1, level: 0 },
-        { depth: 100, level: 2 }
+        { label: "one", level: 1 },
+        { label: "two", level: 0 },
+        { label: "three", level: 2 }
       ]);
     });
   });
 
   it("Returns a valid ItemSequence", () => {
     sampleLists.map(lis => {
-      isValidItemSequence(parseList(lis));
+      isItemSequence(parseList(lis));
     });
   });
 
@@ -138,13 +142,12 @@ describe("parseList", () => {
 
 
     `);
-    console.log(seq);
     expect(seq).toEqual([
-      { depth: 2, label: "A", level: 0 },
-      { depth: 4, label: "a1", level: 2 },
-      { depth: 4, label: "a2", level: 2 },
-      { depth: 2, label: "B", level: 0 },
-      { depth: 3, label: "C", level: 1 }
+      { label: "A", level: 0 },
+      { label: "a1", level: 2 },
+      { label: "a2", level: 2 },
+      { label: "B", level: 0 },
+      { label: "C", level: 1 }
     ]);
   });
 });

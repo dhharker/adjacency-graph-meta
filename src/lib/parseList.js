@@ -1,11 +1,11 @@
 // @flow
 
-import type { TextList, Item, ItemSequence } from "./";
+import type { TextList, RawItem, RawItemSequence, ItemSequence } from "./";
 import { compareNumbers } from "./helpers";
 
 const lineBreaker = /^(\s*)(-|\*)\s*(\w.*)$/i;
 
-const _parseLine = (line: string): ?Item => {
+const _parseLine = (line: string): RawItem => {
   const m = lineBreaker.exec(line);
   if (!m) throw new Error(`Unable to parse line: ${line}`);
   return {
@@ -14,28 +14,29 @@ const _parseLine = (line: string): ?Item => {
   };
 };
 
-const _normaliseDepthToLevel = (nodes: ItemSequence): ItemSequence => {
+const _normaliseDepthToLevel = (nodes: RawItemSequence): ItemSequence => {
   const uqDepths = nodes
     .reduce(
-      (acc, { depth }) => (acc.includes(depth) ? acc : acc.push(depth) && acc),
+      (acc, { depth }) => (acc.includes(depth) ? acc : [...acc, depth]),
       []
     )
     .sort(compareNumbers);
-  return nodes.map(node => ({ ...node, level: uqDepths.indexOf(node.depth) }));
+  return nodes.map(node => ({
+    label: node.label,
+    level: uqDepths.indexOf(node.depth)
+  }));
 };
 
-const parseList = (
-  text: TextList,
-  _config: ParserConfig = {}
-): ItemSequence => {
+const parseList = (text: TextList): ItemSequence => {
   // split the list into lines, removing completely blank lines
   const lines = text.split("\n").filter(chunk => chunk.trim().length);
 
+  // parse each line into a Item object { depth, label }
+  const rawItems = lines.map(_parseLine);
+
   // @todo get some pipeline operator
   // turn number of spaces into list heirarchy level
-  return _normaliseDepthToLevel(
-    lines.map(_parseLine) // parse each line into a Item object { depth, label }
-  );
+  return _normaliseDepthToLevel(rawItems);
 };
 
 export default parseList;
