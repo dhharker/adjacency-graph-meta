@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { parseList, createGraph } from "../lib";
-import type { TextList, ItemSequence, NodeList, EdgeList } from "../lib";
+import type { TextList, ItemSequence, NodeSequence, EdgeList } from "../lib";
 
 const defaultListText = `
   - Javascript​:
@@ -79,7 +79,7 @@ type State = {
   textList: TextList,
   itemSequence: ItemSequence,
   graph?: {
-    nodes: NodeList,
+    nodes: NodeSequence,
     edges: EdgeList
   }
 };
@@ -101,22 +101,25 @@ class App extends React.Component<void, State> {
     super();
     this.state = {
       textList: defaultListText,
-      itemSequence: parseList(defaultListText)
+      itemSequence: parseList(defaultListText),
+      graph: { nodes: [], edges: [] }
     };
   }
 
   onTextChange = (text: string): void => {
     const parsed = parseList(text);
+    this.onItemsChange(parsed);
     this.setState({ itemSequence: parsed });
   };
 
   onItemsChange = (items: ItemSequence): void => {
     const [nodes, edges] = createGraph(items);
     this.setState({ graph: { nodes, edges } });
+    console.log({ nodes, edges });
   };
 
   render() {
-    const { textList, itemSequence } = this.state;
+    const { textList, itemSequence, graph } = this.state;
 
     return (
       <DemoWrapper>
@@ -140,11 +143,22 @@ class App extends React.Component<void, State> {
         </ScrollList>
         <span>3. List of nodes and edges</span>
         <ScrollList>
-          {/*itemSequence.map(([left, right]) => (
-            <li>
-              {left} -> {right}
-            </li>
-          ))*/}
+          {graph &&
+            graph.nodes &&
+            graph.nodes.map(({ id, label, level, weight }) => (
+              <li key={id}>
+                @{level} {id}: {label} = {weight}
+              </li>
+            ))}
+        </ScrollList>
+        <ScrollList>
+          {graph &&
+            graph.edges &&
+            graph.edges.map(([left, right], i) => (
+              <li key={i}>
+                {left} -> {right}
+              </li>
+            ))}
         </ScrollList>
       </DemoWrapper>
     );

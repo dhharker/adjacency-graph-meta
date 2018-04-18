@@ -1,6 +1,7 @@
 // @flow
 
-import type { ItemSequence, Graph } from "./";
+import type { ItemSequence, Graph, NodeSequence, EdgeList } from "./";
+import { tail } from "./helpers";
 
 const _sluggify = (str: string, index: number) =>
   str
@@ -9,20 +10,41 @@ const _sluggify = (str: string, index: number) =>
     .replace(/(^-*|-*$)/g, "")
     .replace(/-{2,}/g, "-") || `node_${index}`;
 
-const createGraph = (seq: ItemSequence): Graph => {
-  if (!seq || !Array.isArray(seq))
-    throw new Error("Must provide an ItemSequence to createGraph");
-  const nodeList = seq.map(({ level, label }, itemIndex) => ({
+const _createNodeSequence = (seq: ItemSequence): NodeSequence => {
+  return seq.map(({ level, label }, itemIndex) => ({
     id: _sluggify(label, itemIndex),
     level,
     label,
     weight: 0
   }));
+};
 
-  const edgeList = [];
-  return [nodeList, edgeList];
+const _createEdgeList = (nodeSeq: NodeSequence): EdgeList => {
+  if (!nodeSeq || !Array.isArray(nodeSeq))
+    throw new Error("nodeSeq must be an array");
+  if (!nodeSeq.length) return [];
+
+  let ancestry = [];
+  return nodeSeq.reduce((edgeList, node, idx) => {
+    while (ancestry.length && tail(ancestry).level >= node.level) {
+      ancestry.pop();
+    }
+    ancestry.push(node);
+    if (ancestry.length >= 2) {
+      edgeList.push([tail(ancestry, 1).id, tail(ancestry).id]);
+    }
+    return edgeList;
+  }, []);
+};
+
+const createGraph = (seq: ItemSequence): Graph => {
+  if (!seq || !Array.isArray(seq))
+    throw new Error("Must provide an ItemSequence to createGraph");
+  const nodeSeq = _createNodeSequence(seq);
+
+  return [nodeSeq, _createEdgeList(nodeSeq)];
 };
 
 export default createGraph;
 
-export const _test = { _sluggify };
+export const _test = { _sluggify, _createNodeSequence, _createEdgeList };

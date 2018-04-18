@@ -5,19 +5,16 @@ import parseList, { type Item, ItemSequence } from "./parseList";
 import { _test } from "./parseList";
 const { _parseLine, _normaliseDepthToLevel } = _test;
 
-export const isEdgeList = (iut: any) => {
-  if (!Array.isArray(iut)) {
-    throw new Error("Must be an array");
-  }
-  if (!iut.length) return true;
-  for (let i in iut) {
-    const mem = iut[i];
-    if (!Array.isArray(mem)) throw new Error("Children must be arrays");
-    if (mem.length !== 2) throw new Error("Must have 2 children");
-    if (typeof mem[0] !== "string")
-      throw new Error("child[0] must be a string");
-    if (typeof mem[1] !== "string")
-      throw new Error("child[0] must be a string");
+export const isEdgeList = (el: any) => {
+  expect(Array.isArray(el)).toBeTruthy();
+  expect(typeof el.length).toBe("number");
+  if (el.length === 0) return true;
+  for (let i in el) {
+    const mem = el[i];
+    expect(Array.isArray(mem)).toBeTruthy();
+    expect(mem.length).toBe(2);
+    expect(typeof mem[0]).toBe("string");
+    expect(typeof mem[1]).toBe("string");
     return true;
   }
 };

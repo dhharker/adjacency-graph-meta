@@ -22,16 +22,18 @@ export type ItemSequence = Item[];
 
 // // to/from createGraph.js: // //
 export type NodeId = string;
-export type Edge = [NodeId, NodeId];
-export type EdgeList = Array<Edge>;
 export type Node = {
   id: NodeId,
   label: string,
   level: number,
   weight: number
 };
-export type NodeList = Array<Node>;
-export type Graph = [NodeList, EdgeList];
+export type NodeSequence = Array<Node>;
+
+export type Edge = [NodeId, NodeId];
+export type EdgeList = Array<Edge>;
+
+export type Graph = [NodeSequence, EdgeList];
 
 // export type ParserConfig = {
 //   groupByLabel: boolean
