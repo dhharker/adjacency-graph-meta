@@ -1,6 +1,6 @@
 # Render Nested Markdown Lists via a Graph Data Structure
 
-_Based on [create-react-library](https://github.com/DimiMikadze/create-react-library)_
+_Built with [create-react-library](https://github.com/DimiMikadze/create-react-library)_
 
 `git clone git@github.com:dhharker/dhharker.github.io.git`
 `npm install` or `yarn install`
@@ -8,6 +8,10 @@ _Based on [create-react-library](https://github.com/DimiMikadze/create-react-lib
 
 Runs the demo app in development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Usage
+
+See: `src/Demo/StandAlone.js`
 
 ## Library files
 

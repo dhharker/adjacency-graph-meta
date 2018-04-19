@@ -1,0 +1,68 @@
+export default `
+  - Javascript​:
+    - ES6
+    - node
+    - Flow
+    - React
+    - Express
+    - MobX
+    - Redux
+    - yarn
+    - npm
+    - lerna
+    - Webpack
+    - rollup
+    - Jest
+    - mocha
+    - chai
+    - webdriver
+    - selenium
+    - phantomJs
+  - Apps​:
+    - Web application & architecture security
+    - REST & realtime API design
+    - Accessibility
+    - Web sockets
+    - Latest browser APIs
+    - Usability
+    - UI design and build
+    - Mobile first/responsive
+    - A/B Testing
+    - Micro-UIs
+  - Ops​:
+    - Ansible
+    - Docker
+    - Consul
+    - AWS (EC2 and S3)
+    - Networks
+    - haproxy
+    - Apache
+    - Lighttpd
+    - Chaos engineering
+  - APIs:
+    - I have implemented OAuth1/2
+  - Databases​:
+    - SQL
+      - PostgreSQL
+      - MySQL
+      - SQLite
+      - Oracle
+      - monetdb
+    - NoSQL
+      - MongoDB
+      - Redis
+      - InfluxDB
+    - Schema design, migrations, ORMs, ODMs, query optimisation etc.
+  - General/Other​:
+    - git
+    - svn
+    - TDD
+    - Agile
+      - Scrum
+      - Kanban
+      - SAFe
+    - Information architecture
+    - Hardware
+    - General Linux admin.
+    - Microservices architecture design and implementation.
+`;

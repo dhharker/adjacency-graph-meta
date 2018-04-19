@@ -10,27 +10,35 @@ import type { Graph } from "./";
 
 // @TODO something nicer w/aspect ratio, mobile detection
 const Container = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 400px;
+  height: 100%;
+  overflow: hidden;
+  max-height: 90%;
 `;
 
 type Props = {
-  height: number,
+  height: number | string,
   graph?: Graph
 };
 
 const defaultProps = {
-  height: 400
+  height: "100%"
 };
+
+let nodeDims = {};
 
 const nodeCanvasObject = (node, ctx, scale) => {
   // console.log(node, canvasContext, scale);
   ctx.font = "10px Arial";
   ctx.textAlign = "center";
   const label = node.label;
-
-  const { width, height } = ctx.measureText(label);
-  node = { ...node, width, height };
+  if (!nodeDims[node.id]) {
+    const { width, height } = ctx.measureText(label);
+    nodeDims[node.id] = { width, height };
+  }
   ctx.fillText(label, node.x, node.y);
 };
 
@@ -48,19 +56,22 @@ export default class ForceLayout extends React.Component<Props, void> {
     };
 
     return (
-      <Container style={{ height: `${height}px` }}>
+      <Container
+        style={{ height: `${height}${typeof height === "number" ? "px" : ""}` }}
+      >
         <ContainerDimensions>
           {({ width, height }) => {
             return (
               <ForceGraph2D
                 width={width}
+                nodeVal={node => 5 - node.level}
                 height={height}
                 graphData={data}
                 nodeLabel="label"
                 nodeAutoColorBy="level"
                 d3AlphaDecay={0.01}
                 d3VelocityDecay={0.2}
-                d3Force="forceCentre"
+                // d3Force="forceCentre"
                 nodeCanvasObject={nodeCanvasObject}
               />
             );

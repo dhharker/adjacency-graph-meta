@@ -44,4 +44,9 @@ export type Graph = [NodeSequence, EdgeList];
 //   groupByLabel: true
 // };
 
+const markdownToGraph = (markdown: string): Graph => {
+  return addRootNode(createGraph(parseList(markdown)));
+};
+
+export default markdownToGraph;
 export { parseList, createGraph, addRootNode, ForceLayout };
