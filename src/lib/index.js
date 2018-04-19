@@ -2,6 +2,7 @@
 
 import parseList from "./parseList";
 import createGraph from "./createGraph";
+import ForceLayout from "./ForceLayout";
 
 // // to/from parseList.js: // //
 // raw markdown-style nested list
@@ -43,4 +44,4 @@ export type Graph = [NodeSequence, EdgeList];
 //   groupByLabel: true
 // };
 
-export { parseList, createGraph };
+export { parseList, createGraph, ForceLayout };

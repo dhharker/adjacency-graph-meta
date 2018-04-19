@@ -3,7 +3,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { parseList, createGraph } from "../lib";
+import { parseList, createGraph, ForceLayout } from "../lib";
 import type { TextList, ItemSequence, NodeSequence, EdgeList } from "../lib";
 
 const defaultListText = `
@@ -99,28 +99,27 @@ const ScrollList = styled.ul`
 class App extends React.Component<void, State> {
   constructor() {
     super();
-    this.state = {
-      textList: defaultListText,
-      itemSequence: parseList(defaultListText),
-      graph: { nodes: [], edges: [] }
-    };
+    this.state = this.calcState(defaultListText);
   }
 
   onTextChange = (text: string): void => {
-    const parsed = parseList(text);
-    this.onItemsChange(parsed);
-    this.setState({ itemSequence: parsed });
+    this.setState(this.calcState(text));
   };
 
-  onItemsChange = (items: ItemSequence): void => {
-    const [nodes, edges] = createGraph(items);
-    this.setState({ graph: { nodes, edges } });
-    console.log({ nodes, edges });
+  calcState = (text: string): void => {
+    const parsed = parseList(text);
+    const graph = createGraph(parsed);
+    const st = {
+      textList: text,
+      itemSequence: parsed,
+      graph: graph
+    };
+    return st;
   };
 
   render() {
     const { textList, itemSequence, graph } = this.state;
-
+    console.log("ren", graph);
     return (
       <DemoWrapper>
         <span>1. Markdown style nested list</span>
@@ -144,8 +143,8 @@ class App extends React.Component<void, State> {
         <span>3. List of nodes and edges</span>
         <ScrollList>
           {graph &&
-            graph.nodes &&
-            graph.nodes.map(({ id, label, level, weight }) => (
+            graph[0] &&
+            graph[0].map(({ id, label, level, weight }) => (
               <li key={id}>
                 @{level} {id}: {label} = {weight}
               </li>
@@ -153,13 +152,15 @@ class App extends React.Component<void, State> {
         </ScrollList>
         <ScrollList>
           {graph &&
-            graph.edges &&
-            graph.edges.map(([left, right], i) => (
+            graph[1] &&
+            graph[1].map(([left, right], i) => (
               <li key={i}>
                 {left} -> {right}
               </li>
             ))}
         </ScrollList>
+        <span>4. Force layout</span>
+        {graph && <ForceLayout graph={graph} />}
       </DemoWrapper>
     );
   }
