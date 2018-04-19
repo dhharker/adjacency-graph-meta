@@ -34,14 +34,22 @@ export default `
   - Websockets
     - Realtime API design
   - Accessibility
-  - Mobile first
-  - responsive
+  - Mobile first/responsive
   - UI
     - Component-based design
     - Usability
     - A/B Testing
     - Micro-UIs
     - Mobile first/responsive
+  - Backend
+    - CRUD apps & APIs
+    - Realtime data
+    - API security
+    - Heterogenous data
+    - Architecture
+      - Microservices
+      - MQ
+    - SOA
 - Ops​:
   - Ansible
   - Docker
@@ -78,5 +86,4 @@ export default `
   - Information architecture
   - Hardware
   - General Linux admin.
-
 `;
