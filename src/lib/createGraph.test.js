@@ -1,6 +1,6 @@
 import { isEdgeList } from "./parseList.test.js";
 
-import createGraph from "./createGraph";
+import createGraph, { addRootNode } from "./createGraph";
 import { _test } from "./createGraph";
 
 const { _sluggify, _createNodeSequence, _createEdgeList } = _test;
@@ -25,6 +25,14 @@ const isGraph = (gr): boolean => {
   if (!isEdgeList(gr[1])) throw "Graph[1] must be a EdgeList";
   return true;
 };
+
+describe("addRootNode", () => {
+  it("adds a root node", () => {
+    const rn = addRootNode([[], []])[0][0];
+    expect(typeof rn).toBe("object");
+    expect(rn).toHaveProperty("id", "root");
+  });
+});
 
 describe("createGraph", () => {
   describe("_sluggify", () => {

@@ -45,6 +45,30 @@ const createGraph = (seq: ItemSequence): Graph => {
   return [nodeSeq, _createEdgeList(nodeSeq)];
 };
 
+const addRootNode = (graph: Graph): Graph => {
+  const [nodes, edges] = graph;
+  return [
+    [
+      ...nodes,
+      {
+        id: "root",
+        label: "Root",
+        level: -1,
+        weight: 0
+      }
+    ],
+    edges.concat(
+      nodes.reduce((rootLinks, node) => {
+        if (node.level === 0) {
+          rootLinks.push(["root", node.id]);
+        }
+        return rootLinks;
+      }, [])
+    )
+  ];
+};
+
 export default createGraph;
+export { addRootNode };
 
 export const _test = { _sluggify, _createNodeSequence, _createEdgeList };
