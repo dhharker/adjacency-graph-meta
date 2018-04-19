@@ -23,6 +23,17 @@ const defaultProps = {
   height: 400
 };
 
+const nodeCanvasObject = (node, ctx, scale) => {
+  // console.log(node, canvasContext, scale);
+  ctx.font = "10px Arial";
+  ctx.textAlign = "center";
+  const label = node.label;
+
+  const { width, height } = ctx.measureText(label);
+  node = { ...node, width, height };
+  ctx.fillText(label, node.x, node.y);
+};
+
 export default class ForceLayout extends React.Component<Props, void> {
   static defaultProps: Props = defaultProps;
 
@@ -41,7 +52,17 @@ export default class ForceLayout extends React.Component<Props, void> {
         <ContainerDimensions>
           {({ width, height }) => {
             return (
-              <ForceGraph2D width={width} height={height} graphData={data} />
+              <ForceGraph2D
+                width={width}
+                height={height}
+                graphData={data}
+                nodeLabel="label"
+                nodeAutoColorBy="level"
+                d3AlphaDecay={0.01}
+                d3VelocityDecay={0.2}
+                d3Force="forceCentre"
+                nodeCanvasObject={nodeCanvasObject}
+              />
             );
           }}
         </ContainerDimensions>

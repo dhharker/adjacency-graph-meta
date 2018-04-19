@@ -1,7 +1,7 @@
 // @flow
 
 import parseList from "./parseList";
-import createGraph from "./createGraph";
+import createGraph, { addRootNode } from "./createGraph";
 import ForceLayout from "./ForceLayout";
 
 // // to/from parseList.js: // //
@@ -44,4 +44,4 @@ export type Graph = [NodeSequence, EdgeList];
 //   groupByLabel: true
 // };
 
-export { parseList, createGraph, ForceLayout };
+export { parseList, createGraph, addRootNode, ForceLayout };

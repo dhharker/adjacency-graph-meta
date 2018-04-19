@@ -3,7 +3,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { parseList, createGraph, ForceLayout } from "../lib";
+import { parseList, createGraph, addRootNode, ForceLayout } from "../lib";
 import type { TextList, ItemSequence, NodeSequence, EdgeList } from "../lib";
 
 const defaultListText = `
@@ -78,10 +78,7 @@ const defaultListText = `
 type State = {
   textList: TextList,
   itemSequence: ItemSequence,
-  graph?: {
-    nodes: NodeSequence,
-    edges: EdgeList
-  }
+  graph?: [NodeSequence, EdgeList]
 };
 
 const DemoWrapper = styled.div`
@@ -106,13 +103,13 @@ class App extends React.Component<void, State> {
     this.setState(this.calcState(text));
   };
 
-  calcState = (text: string): void => {
+  calcState = (text: string): State => {
     const parsed = parseList(text);
     const graph = createGraph(parsed);
     const st = {
       textList: text,
       itemSequence: parsed,
-      graph: graph
+      graph: addRootNode(graph)
     };
     return st;
   };
