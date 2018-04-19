@@ -1,68 +1,82 @@
 export default `
-  - Javascript​:
-    - ES6
-    - node
-    - Flow
-    - React
-    - Express
-    - MobX
-    - Redux
+
+- Javascript​:
+  - ES6
+  - Node
+  - Flow
+  - React
+  - Express
+  - MobX
+  - RxJS
+  - Redux
+  - Packaging etc.
+    - Babel
     - yarn
     - npm
     - lerna
     - Webpack
     - rollup
+  - TDD/BDD
     - Jest
     - mocha
     - chai
     - webdriver
     - selenium
     - phantomJs
-  - Apps​:
-    - Web application & architecture security
-    - REST & realtime API design
-    - Accessibility
-    - Web sockets
-    - Latest browser APIs
+- Apps​:
+  - Duh...
+    - HTML5
+    - CSS3
+  - Web application & architecture security
+    - Micro-services
+    - OAuth1 and 2
+  - REST API design
+  - Websockets
+    - Realtime API design
+  - Accessibility
+  - Mobile first
+  - responsive
+  - UI
+    - Component-based design
     - Usability
-    - UI design and build
-    - Mobile first/responsive
     - A/B Testing
     - Micro-UIs
-  - Ops​:
-    - Ansible
-    - Docker
-    - Consul
-    - AWS (EC2 and S3)
-    - Networks
-    - haproxy
-    - Apache
-    - Lighttpd
-    - Chaos engineering
-  - APIs:
-    - I have implemented OAuth1/2
-  - Databases​:
-    - SQL
-      - PostgreSQL
-      - MySQL
-      - SQLite
-      - Oracle
-      - monetdb
-    - NoSQL
-      - MongoDB
-      - Redis
-      - InfluxDB
-    - Schema design, migrations, ORMs, ODMs, query optimisation etc.
-  - General/Other​:
-    - git
-    - svn
-    - TDD
-    - Agile
-      - Scrum
-      - Kanban
-      - SAFe
-    - Information architecture
-    - Hardware
-    - General Linux admin.
-    - Microservices architecture design and implementation.
+    - Mobile first/responsive
+- Ops​:
+  - Ansible
+  - Docker
+  - Consul
+  - ZeroTier
+  - AWS
+  - haproxy
+  - Apache
+  - lighttpd
+- Databases​:
+  - SQL
+    - PostgreSQL
+    - MySQL
+    - SQLite
+    - Oracle
+    - monetdb
+  - NoSQL
+    - MongoDB
+    - Redis
+    - InfluxDB
+  - Schema design
+  - Migrations
+  - ORMs
+  - ODMs
+  - Optimisation
+- General/Other​:
+  - git
+  - svn
+  - TDD
+  - Agile
+    - Scrum
+    - Kanban
+    - SAFe
+  - Information architecture
+  - Hardware
+  - General Linux admin.
+
 `;
