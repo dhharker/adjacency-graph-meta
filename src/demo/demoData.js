@@ -24,9 +24,18 @@ export default `
     - selenium
     - phantomJs
 - Apps​:
-  - Duh...
+  - General
     - HTML5
     - CSS3
+    - Templating languages
+      - JSX
+      - jade
+      - handlebars
+      - ejs
+    - Preprocessors
+      - less
+      - SASS
+      - Stylus
   - Web application & architecture security
     - Micro-services
     - OAuth1 and 2
@@ -34,7 +43,6 @@ export default `
   - Websockets
     - Realtime API design
   - Accessibility
-  - Mobile first/responsive
   - UI
     - Component-based design
     - Usability
@@ -48,7 +56,7 @@ export default `
     - Heterogenous data
     - Architecture
       - Microservices
-      - MQ
+      - Message queues
     - SOA
 - Ops​:
   - Ansible

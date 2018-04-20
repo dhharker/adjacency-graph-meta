@@ -8,15 +8,15 @@ import { ForceGraph2D } from "react-force-graph";
 
 import type { Graph } from "./";
 
+const aspectFactor = 0.71;
+
 // @TODO something nicer w/aspect ratio, mobile detection
 const Container = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
+  height: "500";
   overflow: hidden;
-  max-height: 90%;
+  padding: 0;
+  margin: 0;
 `;
 
 type Props = {
@@ -24,9 +24,7 @@ type Props = {
   graph?: Graph
 };
 
-const defaultProps = {
-  height: "100%"
-};
+const defaultProps = {};
 
 let nodeDims = {};
 
@@ -60,12 +58,15 @@ export default class ForceLayout extends React.Component<Props, void> {
         style={{ height: `${height}${typeof height === "number" ? "px" : ""}` }}
       >
         <ContainerDimensions>
-          {({ width, height }) => {
+          {({ width: cWidth, height: cHeight }) => {
             return (
               <ForceGraph2D
-                width={width}
+                width={cWidth}
                 nodeVal={node => 5 - node.level}
-                height={height}
+                height={Math.min(
+                  cWidth * aspectFactor,
+                  window.innerHeight || 500
+                )}
                 graphData={data}
                 nodeLabel="label"
                 nodeAutoColorBy="level"
